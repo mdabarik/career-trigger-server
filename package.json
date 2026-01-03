@@ -1,0 +1,37 @@
+{
+  "name": "career-trigger-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdabarik/career-trigger-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mdabarik/career-trigger-server/issues"
+  },
+  "homepage": "https://github.com/mdabarik/career-trigger-server#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mongoose": "^9.1.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3",
+    "zod": "^4.3.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "eslint": "^9.39.2",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^17.0.0",
+    "typescript-eslint": "^8.51.0"
+  }
+}

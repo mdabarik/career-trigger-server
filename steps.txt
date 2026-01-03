@@ -1,0 +1,9 @@
+
+
+---- INITIAL ----
+1 -- create git repository
+2 -- create folder structure
+3 -- npm init
+4 -- connect git repository and push
+
+---- 
