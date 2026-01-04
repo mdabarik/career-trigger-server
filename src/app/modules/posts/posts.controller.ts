@@ -31,6 +31,8 @@ const getPostsByAuthor = catchAsync(async (req: Request, res: Response) => {
         authorId: new Types.ObjectId(req.params.id),
     });
 
+    console.log('inside controllers', posts);
+
     sendResponse(res, {
         success: true,
         message: 'All posts fetched successfully',
