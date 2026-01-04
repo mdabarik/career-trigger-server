@@ -9,8 +9,8 @@ interface IPost extends Document {
     authorId: Types.ObjectId;
     date: Date;
     status: 'declined' | 'published' | 'pending';
-    like: number;
-    dislike: number;
+    likeCount: number;
+    dislikeCount: number;
 }
 
 const postSchema = new Schema<IPost>(
@@ -33,8 +33,8 @@ const postSchema = new Schema<IPost>(
             enum: ['declined', 'published', 'pending'],
             default: 'pending',
         },
-        like: { type: Number, default: 0 },
-        dislike: { type: Number, default: 0 },
+        likeCount: { type: Number, default: 0 },
+        dislikeCount: { type: Number, default: 0 },
     },
     {
         timestamps: true,

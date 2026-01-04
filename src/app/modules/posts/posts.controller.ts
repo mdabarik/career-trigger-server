@@ -46,15 +46,70 @@ const createPost = async (payload: any) => {
         throw new Error('Invalid authorId');
     }
     const authorObjectId = new Types.ObjectId(payload.authorId);
+
+    if (!payload.categoryId || !Types.ObjectId.isValid(payload.categoryId)) {
+        throw new Error('Invalid category id');
+    }
+    const categoryObjectId = new Types.ObjectId(payload.categoryId);
+
     const post = await PostServices.createPost({
         ...payload,
         authorId: authorObjectId,
+        categoryId: categoryObjectId,
     });
     return post;
 };
+
+const updatePost = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const post = await PostServices.updatePost(id, req.body);
+    sendResponse(res, {
+        success: true,
+        message: 'Post updated successfully',
+        statusCode: httpStatus.OK,
+        data: post,
+    });
+});
+
+const getPostById = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const post = await PostServices.getPostById(id);
+    sendResponse(res, {
+        success: true,
+        message: 'Post fetched successfully',
+        statusCode: httpStatus.OK,
+        data: post,
+    });
+});
+
+const deletePost = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const post = await PostServices.deletePost(id);
+    sendResponse(res, {
+        success: true,
+        message: post ? 'Post deleted successfully' : 'Post not found',
+        statusCode: httpStatus.OK,
+        data: post,
+    });
+});
+
+const patchPost = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const post = await PostServices.patchPost(id, req.body);
+    sendResponse(res, {
+        success: true,
+        message: 'Post partially updated successfully',
+        statusCode: httpStatus.OK,
+        data: post,
+    });
+});
 
 export const PostControllers = {
     getPosts,
     getPostsByAuthor,
     createPost,
+    updatePost,
+    getPostById,
+    deletePost,
+    patchPost,
 };
