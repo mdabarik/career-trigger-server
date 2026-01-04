@@ -41,7 +41,20 @@ const getPostsByAuthor = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+const createPost = async (payload: any) => {
+    if (!payload.authorId || !Types.ObjectId.isValid(payload.authorId)) {
+        throw new Error('Invalid authorId');
+    }
+    const authorObjectId = new Types.ObjectId(payload.authorId);
+    const post = await PostServices.createPost({
+        ...payload,
+        authorId: authorObjectId,
+    });
+    return post;
+};
+
 export const PostControllers = {
     getPosts,
     getPostsByAuthor,
+    createPost,
 };

@@ -15,7 +15,7 @@ const getPosts = async (params: any) => {
         ];
     }
 
-    let postsQuery = Post.find(query).populate('author');
+    let postsQuery = Post.find(query).populate('author').populate('category');
 
     if (sortById) {
         postsQuery = postsQuery.sort({ _id: sortById === 'asc' ? 1 : -1 });
@@ -46,6 +46,12 @@ const getPosts = async (params: any) => {
     };
 };
 
+const createPost = async (payload: any) => {
+    const post = await Post.create(payload);
+    return post;
+};
+
 export const PostServices = {
     getPosts,
+    createPost,
 };

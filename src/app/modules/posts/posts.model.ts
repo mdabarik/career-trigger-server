@@ -2,7 +2,7 @@ import { Schema, model, Document, Types } from 'mongoose';
 
 interface IPost extends Document {
     title: string;
-    category: string;
+    categoryId: Types.ObjectId;
     photoUrl: string;
     details: string;
     tags: string[];
@@ -16,7 +16,11 @@ interface IPost extends Document {
 const postSchema = new Schema<IPost>(
     {
         title: { type: String, required: true },
-        category: { type: String, required: true },
+        categoryId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Category',
+            required: true,
+        },
         photoUrl: { type: String, required: true },
         details: { type: String, required: true },
         tags: { type: [String], default: [], required: true },
@@ -40,6 +44,13 @@ const postSchema = new Schema<IPost>(
 postSchema.virtual('author', {
     ref: 'User',
     localField: 'authorId',
+    foreignField: '_id',
+    justOne: true,
+});
+
+postSchema.virtual('category', {
+    ref: 'Category',
+    localField: 'categoryId',
     foreignField: '_id',
     justOne: true,
 });
