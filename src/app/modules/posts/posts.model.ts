@@ -21,8 +21,7 @@ const postSchema = new Schema<IPost>(
         details: { type: String, required: true },
         tags: { type: [String], default: [], required: true },
 
-        // authorId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-        authorId: { type: Schema.Types.ObjectId, required: true },
+        authorId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 
         date: { type: Date, default: Date.now },
         status: {
@@ -37,6 +36,16 @@ const postSchema = new Schema<IPost>(
         timestamps: true,
     }
 );
+
+postSchema.virtual('author', {
+    ref: 'User',
+    localField: 'authorId',
+    foreignField: '_id',
+    justOne: true,
+});
+
+postSchema.set('toObject', { virtuals: true });
+postSchema.set('toJSON', { virtuals: true });
 
 const Post = model<IPost>('Post', postSchema);
 

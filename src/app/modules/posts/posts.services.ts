@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import Post from './posts.model';
 
 const getPosts = async (params: any) => {
     const { status, author, search, sortById, limit, authorId } = params;
-    console.log('services author id:', authorId);
 
     const query: any = {};
 
@@ -17,7 +15,7 @@ const getPosts = async (params: any) => {
             { tags: { $regex: search, $options: 'i' } },
         ];
     }
-    let postsQuery = Post.find(query);
+    let postsQuery = Post.find(query).populate('author');
     if (sortById) {
         postsQuery = postsQuery.sort({ _id: sortById === 'asc' ? 1 : -1 });
     }
