@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 interface IPost extends Document {
     title: string;
@@ -6,7 +6,7 @@ interface IPost extends Document {
     photoUrl: string;
     details: string;
     tags: string[];
-    author: string;
+    authorId: Types.ObjectId;
     date: Date;
     status: 'declined' | 'published' | 'pending';
     like: number;
@@ -20,7 +20,10 @@ const postSchema = new Schema<IPost>(
         photoUrl: { type: String, required: true },
         details: { type: String, required: true },
         tags: { type: [String], default: [], required: true },
-        author: { type: String, required: true },
+
+        // authorId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+        authorId: { type: Schema.Types.ObjectId, required: true },
+
         date: { type: Date, default: Date.now },
         status: {
             type: String,
