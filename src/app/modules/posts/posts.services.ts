@@ -3,9 +3,12 @@ import { Types } from 'mongoose';
 import Post from './posts.model';
 
 const getPosts = async (params: any) => {
-    const { status, search, sortById, authorId, page, itemPerPage } = params;
+    const { status, search, sortById, authorId, page, limit } = params;
+    console.log('params', params);
 
     const query: any = {};
+
+    // console.log(query);
 
     if (authorId) query.authorId = authorId;
     if (status) query.status = status;
@@ -22,22 +25,29 @@ const getPosts = async (params: any) => {
         postsQuery = postsQuery.sort({ _id: sortById === 'asc' ? 1 : -1 });
     }
 
+    /* pagination validation */
+    const perPage = Number(limit);
+    const pageNumber = Number(page);
+    if (!Number.isInteger(perPage) || isNaN(perPage) || perPage <= 0) {
+        throw new Error(
+            'Invalid limit value. Limit must be a positive integer.'
+        );
+    }
+    if (!Number.isInteger(pageNumber) || isNaN(pageNumber) || pageNumber <= 0) {
+        throw new Error('Invalid page value. Page must be a positive integer.');
+    }
+
     /* pagination logic start */
     const totalItems = await Post.countDocuments(query);
-    const perPage = Number(itemPerPage) || 10;
-    let pageNumber = Number(page) || 1;
-    if (pageNumber < 1 || isNaN(pageNumber)) {
-        pageNumber = 1;
-    }
     const totalPages = Math.ceil(totalItems / perPage);
-    if (pageNumber > totalPages) {
-        pageNumber = totalPages;
+    if (pageNumber > totalPages && totalPages != 0) {
+        throw new Error('Invalid page value. Page does not exists.');
     }
     let skip = (pageNumber - 1) * perPage;
     if (skip < 0) skip = 0;
     /* pagination logic end */
 
-    console.log('skip', skip);
+    // console.log('skip', skip);
 
     postsQuery = postsQuery.skip(skip).limit(perPage);
     const posts = await postsQuery.exec();
@@ -45,6 +55,7 @@ const getPosts = async (params: any) => {
     return {
         posts: posts,
         recordCount: totalItems,
+        totalPages: totalPages,
     };
 };
 
