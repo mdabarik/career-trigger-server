@@ -1,5 +1,6 @@
-import { Schema, model, Document, HookNextFunction } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 import bcrypt from 'bcryptjs';
+import { string } from 'zod';
 
 export interface IUser extends Document {
     name: string;
@@ -7,6 +8,7 @@ export interface IUser extends Document {
     photoUrl: string;
     role: 'admin' | 'editor' | 'user';
     password: string;
+    provider: string;
 }
 
 const userSchema = new Schema<IUser>(
@@ -20,7 +22,8 @@ const userSchema = new Schema<IUser>(
             default: 'user',
             required: true,
         },
-        password: { type: String, required: true },
+        password: { type: String, required: false },
+        provider: { type: String, required: false },
     },
     {
         timestamps: true,
