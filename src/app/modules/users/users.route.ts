@@ -4,6 +4,7 @@ const route = Router();
 
 route.get('/', UserController.getUsers);
 route.get('/:id/user', UserController.getUserById);
+route.get('/user', UserController.getUserByEmail);
 route.post('/', UserController.createUser);
 route.put('/:id', UserController.updateUser);
 

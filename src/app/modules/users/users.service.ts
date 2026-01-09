@@ -37,6 +37,12 @@ const getUsers = async (params: any) => {
     };
 };
 
+const getuserByEmail = async (email: string) => {
+    // console.log('from getuserby email user.service.ts', email);
+    const user = await User.findOne({ email });
+    return user;
+};
+
 const getUserById = async (id: string) => {
     if (!Types.ObjectId.isValid(id)) {
         throw new Error('Invalid user id');
@@ -64,6 +70,7 @@ const updateUser = async (id: string, payload: Partial<any>) => {
 export const UserService = {
     getUsers,
     getUserById,
+    getuserByEmail,
     createUser,
     updateUser,
 };

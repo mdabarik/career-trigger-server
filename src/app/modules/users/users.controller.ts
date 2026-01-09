@@ -3,6 +3,7 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 import { UserService } from './users.service';
+import { success } from 'zod';
 
 const getUsers = catchAsync(async (req: Request, res: Response) => {
     const posts = await UserService.getUsers({ ...req.body });
@@ -24,6 +25,27 @@ const getUserById = catchAsync(async (req: Request, res: Response) => {
         statusCode: httpStatus.OK,
         data: user,
     });
+});
+
+const getUserByEmail = catchAsync(async (req: Request, res: Response) => {
+    // console.log('getUserByEmail, from users.controller.ts', req.query);
+    const { email } = req.query;
+    const user = await UserService.getuserByEmail(email as string);
+    if (!user) {
+        sendResponse(res, {
+            success: false,
+            message: 'User not found',
+            statusCode: httpStatus.NOT_FOUND,
+            data: null,
+        });
+    } else {
+        sendResponse(res, {
+            success: true,
+            message: 'User found',
+            statusCode: httpStatus.OK,
+            data: user,
+        });
+    }
 });
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
@@ -50,6 +72,7 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
 export const UserController = {
     getUsers,
     getUserById,
+    getUserByEmail,
     createUser,
     updateUser,
 };
