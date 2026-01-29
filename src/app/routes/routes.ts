@@ -1,8 +1,7 @@
 import { Router } from 'express';
-import { PostRoute } from '../modules/posts/posts.route';
 import { UserRoute } from '../modules/users/users.route';
 import { CategoryRoute } from '../modules/categories/categories.route';
-import { ReactionRoutes } from '../modules/reaction/reaction.route';
+import PostRoute from '../modules/posts/posts.route'; // ✅ এটা মিসিং ছিল
 
 const router = Router();
 
@@ -19,11 +18,8 @@ const moduleRoutes = [
         path: '/categories',
         route: CategoryRoute,
     },
-    {
-        path: '/reactions',
-        route: ReactionRoutes,
-    },
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
+
 export default router;

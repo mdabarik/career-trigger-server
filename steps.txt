@@ -1,9 +1,87 @@
 
 
----- INITIAL ----
-1 -- create git repository
-2 -- create folder structure
-3 -- npm init
-4 -- connect git repository and push
-
----- 
+|---- Recommended Folder Structures
+careertrigger-backend/
+│
+├─ src/
+│   ├─ app.ts                  # Express app initialization
+│   ├─ server.ts               # Server startup (listen)
+│
+├─ config/                     # Configs
+│   ├─ env.ts                  # Environment variables
+│   ├─ database.ts             # DB connection
+│   ├─ jwt.ts                  # JWT secret, expiry config
+│   └─ index.ts                # Export all configs
+│
+├─ middlewares/                # Middleware
+│   ├─ auth.ts                 # Authenticate access token
+│   ├─ roleCheck.ts            # Check roles (admin/moderator/user)
+│   ├─ globalErrorHandler.ts   # Catch all errors
+│   └─ notFound.ts             # 404 handler
+│
+├─ modules/                    # Feature-based modular structure
+│   │
+│   ├─ auth/                   # Login/Register + token generation
+│   │   ├─ auth.controller.ts
+│   │   ├─ auth.service.ts
+│   │   ├─ auth.route.ts
+│   │   └─ auth.validation.ts
+│   │
+│   ├─ users/                  # Users CRUD
+│   │   ├─ user.model.ts
+│   │   ├─ user.interface.ts
+│   │   ├─ user.service.ts
+│   │   ├─ user.controller.ts
+│   │   ├─ user.route.ts
+│   │   └─ user.validation.ts
+│   │
+│   ├─ posts/                  # Posts CRUD
+│   │   ├─ post.model.ts
+│   │   ├─ post.interface.ts
+│   │   ├─ post.service.ts
+│   │   ├─ post.controller.ts
+│   │   ├─ post.route.ts
+│   │   └─ post.validation.ts
+│   │
+│   ├─ categories/             # Categories CRUD
+│   │   ├─ category.model.ts
+│   │   ├─ category.interface.ts
+│   │   ├─ category.service.ts
+│   │   ├─ category.controller.ts
+│   │   ├─ category.route.ts
+│   │   └─ category.validation.ts
+│   │
+│   ├─ comments/               # Comments CRUD
+│   │   ├─ comment.model.ts
+│   │   ├─ comment.interface.ts
+│   │   ├─ comment.service.ts
+│   │   ├─ comment.controller.ts
+│   │   ├─ comment.route.ts
+│   │   └─ comment.validation.ts
+│   │
+│   └─ reactions/              # Reactions / Likes
+│       ├─ reaction.model.ts
+│       ├─ reaction.interface.ts
+│       ├─ reaction.service.ts
+│       ├─ reaction.controller.ts
+│       ├─ reaction.route.ts
+│       └─ reaction.validation.ts
+│
+├─ routes/                     # Combine all module routes
+│   └─ index.ts
+│
+├─ utils/                      # Utility functions
+│   ├─ catchAsync.ts
+│   ├─ sendResponse.ts
+│   └─ ApiError.ts
+│
+├─ constants/                  # App constants
+│   ├─ roles.ts                # e.g., ["admin", "moderator", "user"]
+│   └─ httpStatus.ts           # e.g., 200, 401, 403, 404
+│
+├─ interfaces/                 # Global interfaces
+│   └─ common.interface.ts
+│
+└─ shared/                     # Shared helper files
+    ├─ logger.ts
+    └─ pagination.ts

@@ -1,19 +1,15 @@
 import { Schema, model, Document, Types } from 'mongoose';
 
-interface IPost extends Document {
+export interface IPostDocument extends Document {
     title: string;
     categoryId: Types.ObjectId;
     photoUrl: string;
-    details: string;
-    tags: string[];
+    description: string;
     authorId: Types.ObjectId;
-    date: Date;
     status: 'declined' | 'published' | 'pending';
-    likeCount: number;
-    dislikeCount: number;
 }
 
-const postSchema = new Schema<IPost>(
+const postSchema = new Schema<IPostDocument>(
     {
         title: { type: String, required: true },
         categoryId: {
@@ -22,23 +18,17 @@ const postSchema = new Schema<IPost>(
             required: true,
         },
         photoUrl: { type: String, required: true },
-        details: { type: String, required: true },
-        tags: { type: [String], default: [], required: true },
-
+        description: { type: String, required: true },
         authorId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-
-        date: { type: Date, default: Date.now },
         status: {
             type: String,
             enum: ['declined', 'published', 'pending'],
             default: 'pending',
         },
-        likeCount: { type: Number, default: 0 },
-        dislikeCount: { type: Number, default: 0 },
     },
     {
         timestamps: true,
-    }
+    },
 );
 
 postSchema.virtual('author', {
@@ -58,6 +48,6 @@ postSchema.virtual('category', {
 postSchema.set('toObject', { virtuals: true });
 postSchema.set('toJSON', { virtuals: true });
 
-const Post = model<IPost>('Post', postSchema);
+const Post = model<IPostDocument>('Post', postSchema);
 
 export default Post;
