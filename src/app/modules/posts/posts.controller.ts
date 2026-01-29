@@ -3,12 +3,12 @@ import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { postService } from './posts.services';
+import { IPostReaderController } from './posts.interface';
 
-export class PostController {
-    public static GetAllPosts = catchAsync(
-        async (req: Request, res: Response) => {
+class PostController implements IPostReaderController {
+    public GetAllPosts = catchAsync(
+        async (req: Request, res: Response): Promise<void> => {
             const posts = await postService.GetAllPosts();
-
             sendResponse(res, {
                 success: true,
                 message: 'All posts fetched successfully',
@@ -18,11 +18,10 @@ export class PostController {
         },
     );
 
-    public static GetPostById = catchAsync(
-        async (req: Request, res: Response) => {
+    public GetPostById = catchAsync(
+        async (req: Request, res: Response): Promise<void> => {
             const { id } = req.params;
             const post = await postService.GetPostById(id);
-
             sendResponse(res, {
                 success: true,
                 message: 'Post fetched successfully',
@@ -32,3 +31,5 @@ export class PostController {
         },
     );
 }
+
+export const postController = new PostController();

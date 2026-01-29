@@ -1,8 +1,8 @@
 import { Model } from 'mongoose';
-import { IPostDTO, IPostReader } from './posts.interface';
+import { IPostDTO, IPostReaderService } from './posts.interface';
 import Post, { IPostDocument } from './posts.model';
 
-class PostService implements IPostReader {
+class PostService implements IPostReaderService {
     constructor(private postModel: Model<IPostDocument>) {}
 
     async GetAllPosts(): Promise<IPostDTO[]> {

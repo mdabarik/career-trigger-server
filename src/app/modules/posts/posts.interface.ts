@@ -1,3 +1,5 @@
+import { RequestHandler } from 'express';
+
 export interface IPostDTO {
     title: string;
     categoryId: string;
@@ -7,7 +9,12 @@ export interface IPostDTO {
     status: 'declined' | 'published' | 'pending';
 }
 
-export interface IPostReader {
+export interface IPostReaderService {
     GetAllPosts(): Promise<IPostDTO[]>;
     GetPostById(id: string): Promise<IPostDTO | null>;
+}
+
+export interface IPostReaderController {
+    GetAllPosts: RequestHandler;
+    GetPostById: RequestHandler;
 }
