@@ -5,6 +5,7 @@ import sendResponse from '../../utils/sendResponse';
 import { postService } from './posts.services';
 import { IPostReaderController } from './posts.interface';
 import { isValidStatus } from './posts.validation';
+import mongoose from 'mongoose';
 
 class PostController implements IPostReaderController {
     public GetAllPosts = catchAsync(
@@ -28,7 +29,29 @@ class PostController implements IPostReaderController {
     public GetPostById = catchAsync(
         async (req: Request, res: Response): Promise<void> => {
             const { id } = req.params;
+
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                sendResponse(res, {
+                    success: false,
+                    message: 'Invalid post ID',
+                    statusCode: httpStatus.BAD_REQUEST,
+                    data: null,
+                });
+                return;
+            }
+
             const post = await postService.GetPostById(id);
+
+            if (!post) {
+                sendResponse(res, {
+                    success: false,
+                    message: 'Post not found',
+                    statusCode: httpStatus.NOT_FOUND,
+                    data: null,
+                });
+                return;
+            }
+
             sendResponse(res, {
                 success: true,
                 message: 'Post fetched successfully',

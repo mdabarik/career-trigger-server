@@ -2,12 +2,14 @@ import { RequestHandler } from 'express';
 import { PostStatus } from './posts.types';
 
 export interface IPostDTO {
+    _id: string;
     title: string;
-    categoryId: string;
     photoUrl: string;
     description: string;
-    authorId: string;
     status: PostStatus;
+    categoryName: string;
+    authorId: string;
+    authorName: string;
 }
 
 export interface IPostReaderService {
