@@ -6,3 +6,5 @@ export interface Post {
     description: string;
     authorId: string;
 }
+
+export type PostStatus = 'declined' | 'published' | 'pending';

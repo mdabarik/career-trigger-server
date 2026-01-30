@@ -4,11 +4,18 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { postService } from './posts.services';
 import { IPostReaderController } from './posts.interface';
+import { isValidStatus } from './posts.validation';
 
 class PostController implements IPostReaderController {
     public GetAllPosts = catchAsync(
         async (req: Request, res: Response): Promise<void> => {
-            const posts = await postService.GetAllPosts();
+            const { limit, searchText, status } = req.query;
+            const posts = await postService.GetAllPosts({
+                limit: limit ? Number(limit) : undefined,
+                searchText: searchText ? String(searchText) : undefined,
+                status: isValidStatus(status) ? status : undefined,
+            });
+
             sendResponse(res, {
                 success: true,
                 message: 'All posts fetched successfully',

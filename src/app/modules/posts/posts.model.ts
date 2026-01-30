@@ -2,11 +2,11 @@ import { Schema, model, Document, Types } from 'mongoose';
 
 export interface IPostDocument extends Document {
     title: string;
-    categoryId: Types.ObjectId;
     photoUrl: string;
     description: string;
-    authorId: Types.ObjectId;
     status: 'declined' | 'published' | 'pending';
+    categoryId: Types.ObjectId;
+    authorId: Types.ObjectId;
 }
 
 const postSchema = new Schema<IPostDocument>(

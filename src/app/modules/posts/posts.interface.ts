@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express';
+import { PostStatus } from './posts.types';
 
 export interface IPostDTO {
     title: string;
@@ -6,12 +7,18 @@ export interface IPostDTO {
     photoUrl: string;
     description: string;
     authorId: string;
-    status: 'declined' | 'published' | 'pending';
+    status: PostStatus;
 }
 
 export interface IPostReaderService {
-    GetAllPosts(): Promise<IPostDTO[]>;
+    GetAllPosts(query: IGetAllPostsQuery): Promise<IPostDTO[]>;
     GetPostById(id: string): Promise<IPostDTO | null>;
+}
+
+export interface IGetAllPostsQuery {
+    limit?: number;
+    searchText?: string;
+    status?: PostStatus;
 }
 
 export interface IPostReaderController {

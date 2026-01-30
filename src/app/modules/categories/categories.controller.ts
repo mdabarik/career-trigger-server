@@ -27,7 +27,7 @@ const updateCategory = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
     const updatedCategory = await CategoriesService.updateCategory(
         id,
-        req.body
+        req.body,
     );
     sendResponse(res, {
         success: true,
