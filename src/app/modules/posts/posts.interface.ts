@@ -21,6 +21,7 @@ export interface IGetAllPostsQuery {
     limit?: number;
     searchText?: string;
     status?: PostStatus;
+    categoryId?: string;
 }
 
 export interface IPostReaderController {

@@ -10,11 +10,12 @@ import mongoose from 'mongoose';
 class PostController implements IPostReaderController {
     public GetAllPosts = catchAsync(
         async (req: Request, res: Response): Promise<void> => {
-            const { limit, searchText, status } = req.query;
+            const { limit, searchText, status, categoryId } = req.query;
             const posts = await postService.GetAllPosts({
                 limit: limit ? Number(limit) : undefined,
                 searchText: searchText ? String(searchText) : undefined,
                 status: isValidStatus(status) ? status : undefined,
+                categoryId: categoryId ? String(categoryId) : undefined,
             });
 
             sendResponse(res, {

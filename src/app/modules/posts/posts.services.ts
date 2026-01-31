@@ -10,11 +10,14 @@ import { TPopulatedPost } from './posts.types';
 class PostService implements IPostReaderService {
     constructor(private postModel: Model<IPostDocument>) {}
     async GetAllPosts(query: IGetAllPostsQuery): Promise<IPostDTO[]> {
-        const { limit, searchText, status } = query;
+        const { limit, searchText, status, categoryId } = query;
         const filter: Record<string, unknown> = {};
 
         if (status) filter.status = status;
         if (searchText) filter.title = { $regex: searchText, $options: 'i' };
+        if (categoryId) filter.categoryId = categoryId;
+
+        console.log(filter, 'inside postservices');
 
         let postsQuery = this.postModel
             .find(filter)
