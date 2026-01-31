@@ -12,13 +12,18 @@ const loginSchema = Joi.object({
     password: Joi.string().required(),
 });
 
+const refreshTokenSchema = Joi.object({
+    refreshToken: Joi.string().trim().min(1).required(),
+});
+
 export const validateRegister = (
     req: Request,
     res: Response,
     next: NextFunction,
 ) => {
     const { error } = registerSchema.validate(req.body);
-    if (error) return res.status(400).json({ message: error.message });
+    if (error)
+        return res.status(400).json({ message: error.details[0].message });
     next();
 };
 
@@ -28,6 +33,18 @@ export const validateLogin = (
     next: NextFunction,
 ) => {
     const { error } = loginSchema.validate(req.body);
-    if (error) return res.status(400).json({ message: error.message });
+    if (error)
+        return res.status(400).json({ message: error.details[0].message });
+    next();
+};
+
+export const validateRefreshToken = (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => {
+    const { error } = refreshTokenSchema.validate(req.body);
+    if (error)
+        return res.status(400).json({ message: error.details[0].message });
     next();
 };
