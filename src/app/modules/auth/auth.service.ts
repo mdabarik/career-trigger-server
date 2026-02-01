@@ -22,13 +22,23 @@ class AuthService {
         if (!isMatch) throw new Error('Invalid credentials');
 
         const accessToken = jwt.sign(
-            { id: user._id, email: user.email },
+            {
+                id: user._id,
+                email: user.email,
+                role: user.role,
+                photoUrl: user.photoUrl,
+            },
             process.env.JWT_SECRET!,
             { expiresIn: '15m' },
         );
 
         const refreshToken = jwt.sign(
-            { id: user._id, email: user.email },
+            {
+                id: user._id,
+                email: user.email,
+                role: user.role,
+                photoUrl: user.photoUrl,
+            },
             process.env.JWT_REFRESH_SECRET!,
             { expiresIn: '7d' },
         );
@@ -55,6 +65,7 @@ class AuthService {
                     id: (decoded as any).id,
                     email: (decoded as any).email,
                     role: (decoded as any).role,
+                    photoUrl: (decoded as any).photoUrl,
                 },
                 process.env.JWT_SECRET!,
                 { expiresIn: '15m' },

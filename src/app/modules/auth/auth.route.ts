@@ -12,4 +12,4 @@ router.post('/register', validateRegister, authController.register);
 router.post('/login', validateLogin, authController.login);
 router.post('/refresh', validateRefreshToken, authController.refresh);
 
-export default router;
+export const AuthRoute = router;
