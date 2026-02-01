@@ -5,7 +5,6 @@ const registerSchema = Joi.object({
     name: Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
-    photoUrl: Joi.string().min(5),
 });
 
 const loginSchema = Joi.object({
@@ -23,6 +22,7 @@ export const validateRegister = (
     next: NextFunction,
 ) => {
     const { error } = registerSchema.validate(req.body);
+    console.log(req.body, 'validate register');
     if (error)
         return res.status(400).json({ message: error.details[0].message });
     next();

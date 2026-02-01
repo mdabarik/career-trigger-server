@@ -14,7 +14,12 @@ const userSchema = new Schema<IUser>(
     {
         name: { type: String, required: true },
         email: { type: String, required: true, unique: true },
-        photoUrl: { type: String, required: false },
+        photoUrl: {
+            type: String,
+            required: false,
+            default:
+                'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+        },
         role: {
             type: String,
             enum: ['admin', 'editor', 'user'],
@@ -22,7 +27,12 @@ const userSchema = new Schema<IUser>(
             required: true,
         },
         password: { type: String, required: false },
-        provider: { type: String, required: false },
+        provider: {
+            type: String,
+            enum: ['credentials', 'google'],
+            default: 'credentials',
+            required: true,
+        },
     },
     {
         timestamps: true,
