@@ -12,11 +12,16 @@ route.post(
     authorize(['admin']),
     categoryController.CreateCategory,
 );
-
+route.put(
+    '/update-cat/:id',
+    authenticate,
+    authorize(['admin']),
+    categoryController.UpdateCategory,
+);
 route.delete(
     '/del-cat/:id',
-    // authenticate,
-    // authorize(['admin']),
+    authenticate,
+    authorize(['admin']),
     categoryController.DeleteCategory,
 );
 
