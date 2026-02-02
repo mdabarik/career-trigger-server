@@ -1,11 +1,11 @@
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import {
     IGetAllPostsQuery,
     IPostDTO,
     IPostReaderService,
 } from './posts.interface';
 import Post, { IPostDocument } from './posts.model';
-import { TPopulatedPost } from './posts.types';
+import { PostStats, TPopulatedPost } from './posts.types';
 
 class PostService implements IPostReaderService {
     constructor(private postModel: Model<IPostDocument>) {}
@@ -65,24 +65,44 @@ class PostService implements IPostReaderService {
         };
     }
 
-    async GetPostStats(userId?: string) {
-        const filter: any = {};
-        if (userId) {
-            filter.userId = userId;
+    // async GetPostStats(id?: string) {
+    //     const filter: any = {};
+    //     if (id) {
+    //         filter.id = id;
+    //     }
+    //     const total = await Post.countDocuments(filter);
+    //     const pending = await Post.countDocuments({
+    //         ...filter,
+    //         status: 'pending',
+    //     });
+    //     const declined = await Post.countDocuments({
+    //         ...filter,
+    //         status: 'declined',
+    //     });
+    //     const published = await Post.countDocuments({
+    //         ...filter,
+    //         status: 'published',
+    //     });
+    //     return { total, pending, declined, published };
+    // }
+
+    async GetPostStats(authorId?: string): Promise<PostStats> {
+        if (authorId && !Types.ObjectId.isValid(authorId)) {
+            return { total: 0, pending: 0, declined: 0, published: 0 };
         }
-        const total = await Post.countDocuments(filter);
-        const pending = await Post.countDocuments({
-            ...filter,
-            status: 'pending',
-        });
-        const declined = await Post.countDocuments({
-            ...filter,
-            status: 'declined',
-        });
-        const published = await Post.countDocuments({
-            ...filter,
-            status: 'published',
-        });
+
+        const baseFilter: any = {};
+        if (authorId) {
+            baseFilter.authorId = new Types.ObjectId(authorId);
+        }
+
+        const [total, pending, declined, published] = await Promise.all([
+            Post.countDocuments(baseFilter),
+            Post.countDocuments({ ...baseFilter, status: 'pending' }),
+            Post.countDocuments({ ...baseFilter, status: 'declined' }),
+            Post.countDocuments({ ...baseFilter, status: 'published' }),
+        ]);
+
         return { total, pending, declined, published };
     }
 }

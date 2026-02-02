@@ -64,9 +64,11 @@ class PostController implements IPostReaderController {
 
     public GetPostStats = catchAsync(
         async (req: Request, res: Response): Promise<void> => {
-            const { userId } = req.query;
+            const { id } = req.query;
 
-            if (userId && !mongoose.Types.ObjectId.isValid(userId as string)) {
+            // console.log(id, 'id');
+
+            if (id && !mongoose.Types.ObjectId.isValid(id as string)) {
                 sendResponse(res, {
                     success: false,
                     message: 'Invalid user ID',
@@ -77,7 +79,7 @@ class PostController implements IPostReaderController {
             }
 
             const stats = await postService.GetPostStats(
-                userId as string | undefined,
+                id as string | undefined,
             );
 
             sendResponse(res, {

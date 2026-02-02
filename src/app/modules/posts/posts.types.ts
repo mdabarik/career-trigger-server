@@ -19,3 +19,10 @@ export type TPopulatedPost = {
     author: { _id: string; name: string };
     category: { _id: string; name: string };
 };
+
+export type PostStats = {
+    total: number;
+    pending: number;
+    declined: number;
+    published: number;
+};
