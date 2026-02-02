@@ -6,6 +6,7 @@ import {
 } from './posts.interface';
 import Post, { IPostDocument } from './posts.model';
 import { PostStats, TPopulatedPost } from './posts.types';
+import mongoose from 'mongoose';
 
 class PostService implements IPostReaderService {
     constructor(private postModel: Model<IPostDocument>) {}
@@ -94,6 +95,64 @@ class PostService implements IPostReaderService {
         }
         const deletedPost = await Post.findByIdAndDelete(id);
         return deletedPost;
+    }
+
+    async CreatePost(payload: any) {
+        const { title, description, photoUrl, authorId, categoryId } = payload;
+        const authorObjectId = new mongoose.Types.ObjectId(authorId);
+        const categoryObjectId = new mongoose.Types.ObjectId(categoryId);
+        const post = await Post.create({
+            title,
+            description,
+            photoUrl,
+            authorId: authorObjectId,
+            categoryId: categoryObjectId,
+        });
+        return post;
+    }
+
+    async UpdatePost(id: string, payload: any) {
+        const { title, description, photoUrl, authorId, categoryId } = payload;
+        const authorObjectId = new mongoose.Types.ObjectId(authorId);
+        const categoryObjectId = new mongoose.Types.ObjectId(categoryId);
+
+        if (!Types.ObjectId.isValid(id)) {
+            throw new Error('Invalid post id');
+        }
+
+        const postExists = await Post.findById(id);
+        if (!postExists) {
+            return null;
+        }
+
+        const updatePost = {
+            title,
+            description,
+            photoUrl,
+            authorId: authorObjectId,
+            categoryId: categoryObjectId,
+        };
+
+        const post = await Post.findByIdAndUpdate(id, updatePost, {
+            new: true,
+            runValidators: true,
+        });
+        return post;
+    }
+
+    async UpdatePostStatus(id: string, payload: any) {
+        if (!Types.ObjectId.isValid(id)) {
+            throw new Error('Invalid post id');
+        }
+        const postExists = await Post.findById(id);
+        if (!postExists) {
+            return null;
+        }
+        const post = await Post.findByIdAndUpdate(id, payload, {
+            new: true,
+            runValidators: true,
+        });
+        return post;
     }
 }
 

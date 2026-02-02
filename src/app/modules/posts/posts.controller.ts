@@ -109,6 +109,48 @@ class PostController implements IPostReaderController {
             data: deletedPost,
         });
     });
+
+    public CreatePost = catchAsync(async (req: Request, res: Response) => {
+        const payload = req.body;
+        const post = await postService.CreatePost(payload);
+        sendResponse(res, {
+            success: true,
+            message: 'Post created successfully',
+            statusCode: httpStatus.OK,
+            data: post,
+        });
+    });
+
+    public UpdatePost = catchAsync(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const payload = req.body;
+
+        const post = await postService.UpdatePost(id, payload);
+
+        sendResponse(res, {
+            success: true,
+            message: 'Post updated successfully',
+            statusCode: httpStatus.OK,
+            data: post,
+        });
+    });
+    public UpdatePostStatus = catchAsync(
+        async (req: Request, res: Response) => {
+            const { id } = req.params;
+            const payload = req.body;
+
+            console.log(id, payload, 'id payload');
+
+            const post = await postService.UpdatePostStatus(id, payload);
+
+            sendResponse(res, {
+                success: true,
+                message: 'Post updated successfully',
+                statusCode: httpStatus.OK,
+                data: post,
+            });
+        },
+    );
 }
 
 export const postController = new PostController();
