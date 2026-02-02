@@ -12,5 +12,11 @@ router.get(
     authorize(['user', 'editor', 'admin']),
     postController.GetPostStats,
 );
+router.delete(
+    '/delete/:id',
+    authenticate,
+    authorize(['user', 'editor', 'admin']),
+    postController.DeletePostById,
+);
 
 export const PostRoute = router;

@@ -64,28 +64,6 @@ class PostService implements IPostReaderService {
             categoryName: post?.category?.name,
         };
     }
-
-    // async GetPostStats(id?: string) {
-    //     const filter: any = {};
-    //     if (id) {
-    //         filter.id = id;
-    //     }
-    //     const total = await Post.countDocuments(filter);
-    //     const pending = await Post.countDocuments({
-    //         ...filter,
-    //         status: 'pending',
-    //     });
-    //     const declined = await Post.countDocuments({
-    //         ...filter,
-    //         status: 'declined',
-    //     });
-    //     const published = await Post.countDocuments({
-    //         ...filter,
-    //         status: 'published',
-    //     });
-    //     return { total, pending, declined, published };
-    // }
-
     async GetPostStats(authorId?: string): Promise<PostStats> {
         if (authorId && !Types.ObjectId.isValid(authorId)) {
             return { total: 0, pending: 0, declined: 0, published: 0 };
@@ -104,6 +82,18 @@ class PostService implements IPostReaderService {
         ]);
 
         return { total, pending, declined, published };
+    }
+
+    async DeletePostById(id: string) {
+        if (!Types.ObjectId.isValid(id)) {
+            throw new Error('Invalid category id');
+        }
+        const post = await Post.findById(id);
+        if (!post) {
+            return null;
+        }
+        const deletedPost = await Post.findByIdAndDelete(id);
+        return deletedPost;
     }
 }
 

@@ -90,6 +90,25 @@ class PostController implements IPostReaderController {
             });
         },
     );
+
+    public DeletePostById = catchAsync(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const deletedPost = await postService.DeletePostById(id);
+        if (!deletedPost) {
+            return sendResponse(res, {
+                success: false,
+                message: 'Category not found',
+                statusCode: httpStatus.NOT_FOUND,
+                data: null,
+            });
+        }
+        sendResponse(res, {
+            success: true,
+            message: 'Post deleted successfully',
+            statusCode: httpStatus.OK,
+            data: deletedPost,
+        });
+    });
 }
 
 export const postController = new PostController();
