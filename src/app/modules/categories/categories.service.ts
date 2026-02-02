@@ -3,8 +3,15 @@ import { ICategoryServiceReader, ICategoryDTO } from './categories.interface';
 import Category from './categories.model';
 
 class CategoriesService implements ICategoryServiceReader {
-    async GetAllCategory(): Promise<ICategoryDTO[]> {
-        const categories = await Category.find().sort().lean<ICategoryDTO[]>();
+    async GetAllCategory(search?: string): Promise<ICategoryDTO[]> {
+        const filter: any = {};
+        if (search && search.trim() !== '') {
+            const q = search.trim();
+            filter.name = { $regex: q, $options: 'i' };
+        }
+        const categories = await Category.find(filter)
+            .sort()
+            .lean<ICategoryDTO[]>();
         return categories;
     }
 

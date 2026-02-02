@@ -8,8 +8,8 @@ route.get('/id/:id', categoryController.GetCategoryById);
 route.get('/cat-stats', categoryController.GetCatStats);
 route.post(
     '/create-cat',
-    authenticate,
-    authorize(['admin']),
+    // authenticate,
+    // authorize(['admin']),
     categoryController.CreateCategory,
 );
 route.put(

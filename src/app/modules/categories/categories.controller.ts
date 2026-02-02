@@ -6,7 +6,12 @@ import { categoriesService } from './categories.service';
 
 class CategoryController {
     GetAllCategory = catchAsync(async (req: Request, res: Response) => {
-        const categories = await categoriesService.GetAllCategory();
+        const rawSearch = req.query.search as string | undefined;
+        const search = rawSearch?.trim() ?? undefined;
+
+        const categories = await categoriesService.GetAllCategory(
+            search as string | undefined,
+        );
 
         sendResponse(res, {
             success: true,
