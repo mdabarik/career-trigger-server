@@ -15,6 +15,12 @@ class CategoriesService implements ICategoryServiceReader {
         ).lean<ICategoryDTO | null>();
         return category;
     }
+
+    async GetCatStats() {
+        const count = await Category.countDocuments();
+        console.log(count, 'GetCatStats');
+        return count;
+    }
 }
 
 export const categoriesService = new CategoriesService();

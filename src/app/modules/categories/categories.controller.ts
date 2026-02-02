@@ -27,6 +27,18 @@ class CategoryController {
             data: category,
         });
     });
+
+    GetCatStats = catchAsync(async (req: Request, res: Response) => {
+        const count = await categoriesService.GetCatStats();
+        sendResponse(res, {
+            success: true,
+            message: 'User retrieved successfully',
+            statusCode: httpStatus.OK,
+            data: {
+                totalCategories: count,
+            },
+        });
+    });
 }
 
 export const categoryController = new CategoryController();

@@ -35,6 +35,11 @@ class UserService {
         });
         return updatedUser;
     }
+
+    async countUsers() {
+        const count = await User.countDocuments();
+        return count;
+    }
 }
 
 export default new UserService();

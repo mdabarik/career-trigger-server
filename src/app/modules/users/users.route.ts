@@ -1,11 +1,13 @@
 import { Router } from 'express';
 import { UserController } from './users.controller';
+import { authenticate, authorize } from '../auth/auth.middleware';
 const route = Router();
 
-route.get('/', UserController.getUsers);
-route.get('/:id/user', UserController.getUserById);
-route.get('/user', UserController.getUserByEmail);
-route.post('/', UserController.createUser);
-route.put('/:id', UserController.updateUser);
+route.get(
+    '/user-stats',
+    authenticate,
+    authorize(['admin']),
+    UserController.countUsers,
+);
 
 export const UserRoute = route;
