@@ -4,51 +4,58 @@ import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 import usersService from './users.service';
 
-const getUserById = catchAsync(async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const user = await usersService.getUserById(id);
-    sendResponse(res, {
-        success: true,
-        message: 'User retrieved successfully',
-        statusCode: httpStatus.OK,
-        data: user,
+class UserController {
+    public getUserById = catchAsync(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const user = await usersService.getUserById(id);
+        sendResponse(res, {
+            success: true,
+            message: 'User retrieved successfully',
+            statusCode: httpStatus.OK,
+            data: user,
+        });
     });
-});
 
-const countUsers = catchAsync(async (req: Request, res: Response) => {
-    const count = await usersService.countUsers();
-    sendResponse(res, {
-        success: true,
-        message: 'User retrieved successfully',
-        statusCode: httpStatus.OK,
-        data: {
-            totalUsers: count,
-        },
+    public GetAllUsers = catchAsync(async (req: Request, res: Response) => {
+        const users = await usersService.GetAllUsers();
+        sendResponse(res, {
+            success: true,
+            message: 'All users retrieved successfully',
+            statusCode: httpStatus.OK,
+            data: users,
+        });
     });
-});
 
-const createUser = catchAsync(async (req: Request, res: Response) => {
-    // console.log('createUser', req.body);
-    const user = await usersService.createUser(req.body);
-    sendResponse(res, {
-        success: true,
-        message: 'User created successfully',
-        statusCode: httpStatus.CREATED,
-        data: user,
+    public countUsers = catchAsync(async (req: Request, res: Response) => {
+        const count = await usersService.countUsers();
+        sendResponse(res, {
+            success: true,
+            message: 'User count retrieved successfully',
+            statusCode: httpStatus.OK,
+            data: { totalUsers: count },
+        });
     });
-});
 
-const updateUser = catchAsync(async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const updatedUser = await usersService.updateUser(id, req.body);
-    sendResponse(res, {
-        success: true,
-        message: 'User updated successfully',
-        statusCode: httpStatus.OK,
-        data: updatedUser,
+    public createUser = catchAsync(async (req: Request, res: Response) => {
+        const user = await usersService.createUser(req.body);
+        sendResponse(res, {
+            success: true,
+            message: 'User created successfully',
+            statusCode: httpStatus.CREATED,
+            data: user,
+        });
     });
-});
 
-export const UserController = {
-    countUsers,
-};
+    public updateUser = catchAsync(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const updatedUser = await usersService.updateUser(id, req.body);
+        sendResponse(res, {
+            success: true,
+            message: 'User updated successfully',
+            statusCode: httpStatus.OK,
+            data: updatedUser,
+        });
+    });
+}
+
+export const userController = new UserController();

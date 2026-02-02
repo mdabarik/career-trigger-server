@@ -40,6 +40,11 @@ class UserService {
         const count = await User.countDocuments();
         return count;
     }
+
+    async GetAllUsers() {
+        const users = await User.find();
+        return users;
+    }
 }
 
 export default new UserService();
