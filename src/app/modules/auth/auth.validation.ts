@@ -22,7 +22,7 @@ export const validateRegister = (
     next: NextFunction,
 ) => {
     const { error } = registerSchema.validate(req.body);
-    console.log(req.body, 'validate register');
+    // console.log(req.body, 'validate register');
     if (error)
         return res.status(400).json({ message: error.details[0].message });
     next();
@@ -45,6 +45,7 @@ export const validateRefreshToken = (
     next: NextFunction,
 ) => {
     const { error } = refreshTokenSchema.validate(req.body);
+    console.log('req.body validateref toekn', req?.body);
     if (error)
         return res.status(400).json({ message: error.details[0].message });
     next();

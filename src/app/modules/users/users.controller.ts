@@ -49,7 +49,7 @@ const getUserByEmail = catchAsync(async (req: Request, res: Response) => {
 });
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
-    console.log('createUser', req.body);
+    // console.log('createUser', req.body);
     const user = await UserService.createUser(req.body);
     sendResponse(res, {
         success: true,

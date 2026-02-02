@@ -61,6 +61,33 @@ class PostController implements IPostReaderController {
             });
         },
     );
+
+    public GetPostStats = catchAsync(
+        async (req: Request, res: Response): Promise<void> => {
+            const { userId } = req.query;
+
+            if (userId && !mongoose.Types.ObjectId.isValid(userId as string)) {
+                sendResponse(res, {
+                    success: false,
+                    message: 'Invalid user ID',
+                    statusCode: httpStatus.BAD_REQUEST,
+                    data: null,
+                });
+                return;
+            }
+
+            const stats = await postService.GetPostStats(
+                userId as string | undefined,
+            );
+
+            sendResponse(res, {
+                success: true,
+                message: 'Post stats fetched successfully',
+                statusCode: httpStatus.OK,
+                data: stats,
+            });
+        },
+    );
 }
 
 export const postController = new PostController();

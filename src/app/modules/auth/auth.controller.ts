@@ -25,6 +25,7 @@ class AuthController {
     async refresh(req: Request, res: Response) {
         try {
             const { refreshToken } = req.body;
+            console.log(req.body, 'refresh aysnc');
             if (!refreshToken) {
                 return res
                     .status(401)

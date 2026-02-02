@@ -17,7 +17,7 @@ class PostService implements IPostReaderService {
         if (searchText) filter.title = { $regex: searchText, $options: 'i' };
         if (categoryId) filter.categoryId = categoryId;
 
-        console.log(filter, 'inside postservices');
+        // console.log(filter, 'inside postservices');
 
         let postsQuery = this.postModel
             .find(filter)
@@ -63,6 +63,27 @@ class PostService implements IPostReaderService {
             authorName: post?.author?.name,
             categoryName: post?.category?.name,
         };
+    }
+
+    async GetPostStats(userId?: string) {
+        const filter: any = {};
+        if (userId) {
+            filter.userId = userId;
+        }
+        const total = await Post.countDocuments(filter);
+        const pending = await Post.countDocuments({
+            ...filter,
+            status: 'pending',
+        });
+        const declined = await Post.countDocuments({
+            ...filter,
+            status: 'declined',
+        });
+        const published = await Post.countDocuments({
+            ...filter,
+            status: 'published',
+        });
+        return { total, pending, declined, published };
     }
 }
 
