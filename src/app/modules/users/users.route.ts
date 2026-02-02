@@ -14,7 +14,13 @@ route.get(
     '/all-users',
     authenticate,
     authorize(['admin']),
-    userController.countUsers,
+    userController.GetAllUsers,
 );
 
+route.put(
+    '/:id/role',
+    authenticate,
+    authorize(['admin']),
+    userController.UpdateUserRole,
+);
 export const UserRoute = route;

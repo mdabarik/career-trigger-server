@@ -56,6 +56,26 @@ class UserController {
             data: updatedUser,
         });
     });
+
+    public UpdateUserRole = catchAsync(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const { role } = req.body;
+        const updatedUser = await usersService.UpdateUserRole(id, { role });
+        if (!updatedUser) {
+            return sendResponse(res, {
+                success: false,
+                message: 'User not found',
+                statusCode: httpStatus.NOT_FOUND,
+                data: null,
+            });
+        }
+        sendResponse(res, {
+            success: true,
+            message: 'User role updated successfully',
+            statusCode: httpStatus.OK,
+            data: updatedUser,
+        });
+    });
 }
 
 export const userController = new UserController();
