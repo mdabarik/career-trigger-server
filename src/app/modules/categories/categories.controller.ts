@@ -39,6 +39,64 @@ class CategoryController {
             },
         });
     });
+
+    CreateCategory = catchAsync(async (req: Request, res: Response) => {
+        const { categoryName } = req.body;
+        const count = await categoriesService.CreateCategory({
+            name: categoryName,
+        });
+        sendResponse(res, {
+            success: true,
+            message: 'User retrieved successfully',
+            statusCode: httpStatus.OK,
+            data: {
+                totalCategories: count,
+            },
+        });
+    });
+
+    public UpdateCategory = catchAsync(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const payload = { name: req?.body?.categoryName };
+
+        const updatedCategory = await categoriesService.UpdateCategory(
+            id,
+            payload,
+        );
+        if (!updatedCategory) {
+            return sendResponse(res, {
+                success: false,
+                message: 'Category not found',
+                statusCode: httpStatus.NOT_FOUND,
+                data: null,
+            });
+        }
+        sendResponse(res, {
+            success: true,
+            message: 'Category updated successfully',
+            statusCode: httpStatus.OK,
+            data: updatedCategory,
+        });
+    });
+
+    public DeleteCategory = catchAsync(async (req: Request, res: Response) => {
+        const { id } = req.params;
+        const deletedCategory = await categoriesService.DeleteCategory(id);
+        if (!deletedCategory) {
+            return sendResponse(res, {
+                success: false,
+                message: 'Category not found',
+                statusCode: httpStatus.NOT_FOUND,
+                data: null,
+            });
+        }
+        sendResponse(res, {
+            success: true,
+            message: 'Category deleted successfully',
+            statusCode: httpStatus.OK,
+            data: deletedCategory,
+        });
+    });
 }
 
 export const categoryController = new CategoryController();

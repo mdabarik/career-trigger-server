@@ -1,0 +1,8 @@
+
+-- CREATE category api: 
+endpoint: /api/categories/add-new-cat (all route must be, authenticated & authorize('admin))
+
+POST (Create): create new categories (Category Name (min: 3 max 50))
+PUT (Update): update category name by id
+DELETE(Delete): delete category by id
+
