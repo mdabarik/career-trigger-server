@@ -71,41 +71,41 @@ Security is paramount. The system implements **granular permissions**:
 | Role                   | Access Level    | Responsibilities                                                                          |
 | ---------------------- | --------------- | ----------------------------------------------------------------------------------------- |
 | **Admin**              | Root Access     | Manage all users, assign roles, view system-wide stats, and manage all content/categories |
-| **Editor / Moderator** | Elevated Access | Create, update, and delete posts. Can change post status (e.g., Publish/Archive)          |
-| **User**               | Standard        | Create personal posts, comment on discussions, and react to content                       |
+| **Editor / Moderator** | Elevated Access | Create, update, and delete posts. Can change post status (e.g., Publish/Declined)         |
+| **User**               | Standard        | Create personal posts                                                                     |
 
 ---
 
 # 🚀 API Endpoints Overview
 
-All routes are prefixed with **`/api/v1`** (configurable).
+All routes are prefixed with **`/api/v1`**
 
 ## 🔐 Authentication
 
-- `POST /auth/register` : Register a new user
-- `POST /auth/login` : Secure login (Returns Access & Refresh Token)
-- `POST /auth/refresh` : Generate a new Access Token using Refresh Token
+- `POST /auth/register` : register new user
+- `POST /auth/login` : secured login (Returns Access Token & Refresh Token)
+- `POST /auth/refresh` : genearte new Access Token using Refresh Token
 
 ## 📝 Post Management
 
-- `GET /posts` : Retrieve all posts (Paginated)
-- `GET /posts/id/:id` : Retrieve a single post details
-- `POST /posts/create` : Create a new post (**Auth Required**)
-- `PUT /posts/update/:id` : Update content (**Author/Admin**)
-- `PATCH /posts/update-post-status/:id` : Update publication status (**Admin/Editor**)
-- `DELETE /posts/delete/:id` : Remove a post (**Admin/Author**)
+- `GET /posts` : retrieve all posts
+- `GET /posts/id/:id` : retrieve single post details
+- `POST /posts/create` : create new post (**Auth Required**)
+- `PUT /posts/update/:id` : update content (**Author/Admin**)
+- `PATCH /posts/update-post-status/:id` : update publication status (**Admin/Editor**)
+- `DELETE /posts/delete/:id` : delete post (**Author**)
 
 ## 📁 Categories
 
-- `GET /categories` : Get all categories
-- `POST /categories/create-cat` : Create new category (**Admin**)
-- `GET /categories/cat-stats` : Get category analytics
+- `GET /categories` : retrieve all categories
+- `POST /categories/create-cat` : create new category (**Admin**)
+- `GET /categories/cat-stats` : get category stats (**Authorize**)
 
 ## 👥 User Administration (Admin Only)
 
-- `GET /users/all-users` : List all users
-- `PUT /users/:id/role` : Promote or demote a user role
-- `GET /users/user-stats` : View platform user growth statistics
+- `GET /users/all-users` : retrieve all users (**Admin Only**)
+- `PUT /users/:id/role` : change role of user (**Admin Only**)
+- `GET /users/user-stats` : retrieve users stats ((**Admin Only**))
 
 ---
 
@@ -149,3 +149,5 @@ npm run build
 npm start
 
 ```
+
+### Thanks
