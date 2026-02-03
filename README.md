@@ -24,10 +24,10 @@ This project moves beyond a standard MVC setup, implementing a **Modular Layered
 
 ### Development Tools
 
--- Linting: ESLint configuration included
--- Formatting: Prettier configuration included
--- Type Checking: TypeScript with tsconfig.json
--- Validation: Zod or Joi schemas for request validation
+- Linting: ESLint configuration included
+- Formatting: Prettier configuration included
+- Type Checking: TypeScript with tsconfig.json
+- Validation: Zod or Joi schemas for request validation
 
 ---
 
