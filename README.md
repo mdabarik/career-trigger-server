@@ -8,14 +8,18 @@ It features a complete content management system with **Role-Based Access Contro
 
 ## 🏛️ Engineering & Architecture
 
-This project moves beyond a standard MVC setup, implementing a **Modular Layered Architecture**. Each domain (User, Post, Auth) is encapsulated, ensuring separation of concerns.
+This project implements **Modular Layered Architecture**. Each domain (User, Post, Auth) is encapsulated, ensuring separation of concerns.
 
 ### Design Principles & Patterns Applied
 
 - **Layered Architecture:** strict separation between the **Transport Layer** (Routers/Controllers), **Business Logic Layer** (Services), and **Data Access Layer** (Models).
 - **SOLID Principles:**
-    - _SRP:_ Each file has a single responsibility (e.g., Controllers only handle HTTP requests, Services handle logic).
-    - _Dependency Injection:_ Services are decoupled to allow for easier testing and refactoring.
+    - _Single Reponsibility:_ Each file has a single responsibility (e.g., Controllers only handle HTTP requests, Services handle logic).
+    - _Open Closed Principle:_ This project follows open closed principles, open for extention and closed for modifications..
+    - _Liskov Substitution Principle:_ This project implmented Likov Substitution principle, it can be replaced with parents behaviour.
+    - _Interface Segregation Principle:_ Services & Controllers file has ISP implemented, not forcing implementing dependencies that might not required.
+    - _Dependency Injection:_ Services & controllers are using dependency injection so it's easy for refactoring.
+
 - **Singleton Pattern:** Utilized for Database Connections and Configuration management to ensure efficient resource usage.
 - **DRY (Don't Repeat Yourself):** Reusable `AppError` classes, `catchAsync` wrappers, and global middlewares reduce code redundancy.
 - **KISS & YAGNI:** The codebase avoids over-engineering, focusing on clean, readable solutions that solve the immediate business requirements without unnecessary complexity.
@@ -27,13 +31,13 @@ This project moves beyond a standard MVC setup, implementing a **Modular Layered
 - Linting: ESLint configuration included
 - Formatting: Prettier configuration included
 - Type Checking: TypeScript with tsconfig.json
-- Validation: Zod or Joi schemas for request validation
+- Validation: Zod & Joi schemas for request validation
 
 ---
 
 ## 📂 Project Structure
 
-The project follows a **Feature-Based Modular Structure**, making it easy to navigate and scale:
+The project follows a **Layered Architecture - Extended version of MVC**, making it easy to navigate and scale:
 
 ```text
 careertrigger-backend/
@@ -68,7 +72,7 @@ careertrigger-backend/
 
 Security is paramount. The system implements **granular permissions**:
 
-| Role                   | Access Level    | Responsibilities                                                                          |
+| Role                   | Access          | Responsibilities                                                                          |
 | ---------------------- | --------------- | ----------------------------------------------------------------------------------------- |
 | **Admin**              | Root Access     | Manage all users, assign roles, view system-wide stats, and manage all content/categories |
 | **Editor / Moderator** | Elevated Access | Create, update, and delete posts. Can change post status (e.g., Publish/Declined)         |
