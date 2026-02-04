@@ -8,7 +8,6 @@ export const authenticate = (
 ) => {
     try {
         const authHeader = req.headers.authorization;
-        // console.log(req.headers, 'authHeader');
         if (!authHeader) {
             return res.status(401).json({ message: 'No token provided' });
         }
@@ -22,7 +21,7 @@ export const authenticate = (
         (req as any).user = decoded;
 
         next();
-    } catch (error) {
+    } catch () {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 };
